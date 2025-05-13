@@ -30,7 +30,7 @@ mongoose.connection.once('open', () => console.log('Now connected to MongoDB Atl
 // you can also customize the options to meet your specific needs
 const corsOptions = {
 	// Origin of the request
-	origin: ['http://localhost:8000', 'http://localhost:3000', 'https://blogapp-red-sigma.vercel.app/'], // allows requests from this client URL only. This is an array because multiple URL can be added for connection.
+	origin: ['http://localhost:8000', 'http://localhost:3000', 'https://blogapp-red-sigma.vercel.app'], // allows requests from this client URL only. This is an array because multiple URL can be added for connection.
 	// methods: ['GET', 'POST'], // allow only specified HTTP methods
 	// allowedHeaders: ['Content-Type', 'Authorization'], // allow only specified headers
 	credentials: true, // allow credentials (e.g. cookies, authorization headers)
