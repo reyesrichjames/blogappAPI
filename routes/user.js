@@ -12,7 +12,7 @@ const router = express.Router();
 
 
 // this route expects to receive a POST request at the URI "/register"
-// http://localhost:4000/users/register
+// https://blogappapi-6wqv.onrender.com/users/register
 router.post("/register", userController.registerUser);
 
 // Route for user authentication

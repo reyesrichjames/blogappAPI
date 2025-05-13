@@ -19,7 +19,7 @@ require('dotenv').config();
 
 // [SECTION] Server Setup
 // Creates an "app" variable that stores the result of the "express" function that initializes our express application and allows us access to different methods that will make backend creation easy
-// Step 1: http://localhost:4000
+// Step 1: https://blogappapi-6wqv.onrender.com
 const app = express();
 
 // [SECTION] MongoDB Connection
@@ -30,7 +30,7 @@ mongoose.connection.once('open', () => console.log('Now connected to MongoDB Atl
 // you can also customize the options to meet your specific needs
 const corsOptions = {
 	// Origin of the request
-	origin: ['http://localhost:8000', 'http://localhost:3000'], // allows requests from this client URL only. This is an array because multiple URL can be added for connection.
+	origin: ['http://localhost:8000', 'http://localhost:3000', 'https://blogapp-red-sigma.vercel.app/'], // allows requests from this client URL only. This is an array because multiple URL can be added for connection.
 	// methods: ['GET', 'POST'], // allow only specified HTTP methods
 	// allowedHeaders: ['Content-Type', 'Authorization'], // allow only specified headers
 	credentials: true, // allow credentials (e.g. cookies, authorization headers)
@@ -44,10 +44,10 @@ app.use(cors(corsOptions));
 
 // [SECTION] Backend Routes
 // defines the "/users" endpoint will be incuded for all user routes in the users file. groups all routes inside the userRoutes under /users.
-// http://localhost:4000/users
+// https://blogappapi-6wqv.onrender.com/users
 app.use('/users', userRoute);
 app.use('/posts', postRoute);
-// http://localhost:4000/enrollments
+// https://blogappapi-6wqv.onrender.com/enrollments
 
 // Server Gateway Response
 if(require.main === module) {
