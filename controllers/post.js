@@ -15,14 +15,22 @@ exports.addPost = (req, res) => {
 
 // Get all blog posts
 exports.getPosts = (req, res) => {
-    Post.find().populate('author', 'username').sort({ createdAt: -1 })
-        .then(posts => res.status(200).send(posts))
+    Post.find()
+        .populate('author', 'username profilePic')
+        .sort({ createdAt: -1 })
+        .then(posts => {
+            if (!posts) {
+                return res.status(404).send({ message: 'No posts found' });
+            }
+            return res.status(200).send(posts);
+        })
         .catch(err => errorHandler(err, req, res));
 };
 
 // Get a single blog post by ID
 exports.getPost = (req, res) => {
-    Post.findById(req.params.postId).populate('author', 'username')
+    Post.findById(req.params.postId)
+        .populate('author', 'username profilePic')
         .then(post => {
             if (!post) return res.status(404).send({ message: 'Post not found' });
             res.status(200).send(post);
@@ -92,6 +100,26 @@ exports.getPopularPosts = (req, res) => {
             }
         },
         {
+            $lookup: {
+                from: 'users', // Assuming your users collection is named 'users'
+                localField: 'author',
+                foreignField: '_id',
+                as: 'authorDetails'
+            }
+        },
+        {
+            $unwind: {
+                path: '$authorDetails',
+                preserveNullAndEmptyArrays: true // Optional: if you want to keep posts without authors
+            }
+        },
+        {
+            $addFields: {
+                authorUsername: '$authorDetails.username',
+                authorProfilePic: '$authorDetails.profilePic'
+            }
+        },
+        {
             $sort: { commentCount: -1 } // Sort by comment count in descending order
         },
         {
@@ -104,7 +132,8 @@ exports.getPopularPosts = (req, res) => {
                 createdAt: 1,
                 imageUrl: 1,
                 commentCount: 1,
-                author: 1 // Include author if needed
+                authorUsername: 1,
+                authorProfilePic: 1 // Include the author's profile picture
             }
         }
     ])

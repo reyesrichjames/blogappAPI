@@ -12,7 +12,7 @@ const router = express.Router();
 
 
 // this route expects to receive a POST request at the URI "/register"
-// https://blogappapi-6wqv.onrender.com/users/register
+// http://localhost:4000/users/register
 router.post("/register", userController.registerUser);
 
 // Route for user authentication
@@ -26,6 +26,7 @@ router.post("/login", userController.loginUser)
 // the "req" and "res" objects in the verify (e.g. req.user) will still be accessible to getProfile
 router.get("/details", verify, userController.getProfile)
 
-
-
+// New route for updating profile
+router.patch("/profile", verify, userController.updateProfile);
+router.patch('/update-password', verify, userController.updatePassword);
 module.exports = router;

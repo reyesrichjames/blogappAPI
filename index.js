@@ -19,7 +19,7 @@ require('dotenv').config();
 
 // [SECTION] Server Setup
 // Creates an "app" variable that stores the result of the "express" function that initializes our express application and allows us access to different methods that will make backend creation easy
-// Step 1: https://blogappapi-6wqv.onrender.com
+// Step 1: http://localhost:4000
 const app = express();
 
 // [SECTION] MongoDB Connection
@@ -44,10 +44,10 @@ app.use(cors(corsOptions));
 
 // [SECTION] Backend Routes
 // defines the "/users" endpoint will be incuded for all user routes in the users file. groups all routes inside the userRoutes under /users.
-// https://blogappapi-6wqv.onrender.com/users
+// http://localhost:4000/users
 app.use('/users', userRoute);
 app.use('/posts', postRoute);
-// https://blogappapi-6wqv.onrender.com/enrollments
+// http://localhost:4000/enrollments
 
 // Server Gateway Response
 if(require.main === module) {

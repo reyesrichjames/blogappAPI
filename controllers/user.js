@@ -165,3 +165,54 @@ module.exports.getProfile = (req, res) => {
     })
     .catch(err => errorHandler(err, req, res));
 };
+module.exports.updatePassword = async (req, res) => {
+    const { newPassword } = req.body;
+
+    if (!newPassword) {
+        return res.status(400).json({ error: 'New password is required.' });
+    }
+
+    if (newPassword.length < 8) {
+        return res.status(400).json({ error: 'New password must be at least 8 characters long.' });
+    }
+
+    try {
+        const user = await User.findById(req.user.id);
+
+        if (!user) {
+            return res.status(404).json({ error: 'User not found.' });
+        }
+
+        user.password = bcrypt.hashSync(newPassword, 12);
+        await user.save();
+
+        res.json({ message: 'Password updated successfully.' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Something went wrong updating the password.' });
+    }
+};
+
+module.exports.updateProfile = async (req, res) => {
+    const { username, email, profilePic } = req.body;
+
+    try {
+        const user = await User.findById(req.user.id);
+
+        if (!user) {
+            return res.status(404).json({ error: 'User not found.' });
+        }
+
+        // Update user fields
+        if (username) user.username = username;
+        if (email) user.email = email;
+        if (profilePic) user.profilePic = profilePic;
+
+        await user.save();
+
+        res.json({ message: 'Profile updated successfully.', user });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Something went wrong updating the profile.' });
+    }
+};
